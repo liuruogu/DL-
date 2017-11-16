@@ -7,6 +7,9 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.Row
+import java.lang.Math
+
 
 case class Song(year: Integer, feature1: Double, feature2: Double, feature3: Double)
 
@@ -49,6 +52,19 @@ object Main {
     
     //Number of songs released between 1998 and 2000    
     println(songsDf.filter($"year" >= 1998 && $"year" <= 2000 ).count())
+    sqlContext.sql("select count(*) from songs where year >= 1998 and year <=2000").show()
+    
+    //Min Max Mean value of the year column
+    val yearsDf = songsDf.map(song => song.getAs[Int]("year")).cache()    
+    //Max     
+    println(yearsDf.reduce((year1,year2) => Math.max(year1, year2))) 
+    //Min
+    println(yearsDf.reduce((year1,year2) => Math.min(year1, year2)))
+    //Min 
+    println(yearsDf.reduce((year1,year2) => year1+year2)/yearsDf.count())
+    
+    sqlContext.sql("select min(year), max(year), mean(year) from songs ").show()
+    
     
   }
 }
