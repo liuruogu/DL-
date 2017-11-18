@@ -65,6 +65,9 @@ object Main {
     
     sqlContext.sql("select min(year), max(year), mean(year) from songs ").show()
     
+    //Song per year 2000-2010
+    sqlContext.sql("select year, count(*) from songs where year >= 2000 and year <=2010 group by year ").show()
+    songsDf.filter($"year"<= 2010 && $"year" >= 2000).groupBy("year").count().show()
     
   }
 }
