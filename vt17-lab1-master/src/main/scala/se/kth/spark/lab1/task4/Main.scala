@@ -79,7 +79,7 @@ object Main {
 
     //do prediction - print first k
     val predictions = cvModel.transform(testData)
-    predictions.select("features","label","prediction").take(5).foreach(println)
+    predictions.select("features","prediction","label").take(5).foreach(println)
 
     // RMSE on Test Set
     println()
@@ -87,7 +87,6 @@ object Main {
     val testEvaluator = new RegressionEvaluator().setLabelCol("label").setPredictionCol("prediction").setMetricName("rmse")
     val rmse = testEvaluator.evaluate(predictions)
     println("Root Mean Squared Error (RMSE) on test data = " + rmse)
-
 
   }
 }

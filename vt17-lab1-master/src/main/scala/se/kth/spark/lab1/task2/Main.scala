@@ -61,6 +61,7 @@ object Main {
     
     
     //Step6: shift all labels by the value of minimum label such that the value of the smallest becomes 0 (use our DoubleUDF) 
+    //Start from 0
     val lShifter = new DoubleUDF((d:Double) => (d - 1922.0 ))
       .setInputCol("doublelabel")
       .setOutputCol("label")
